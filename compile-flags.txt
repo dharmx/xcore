@@ -1,0 +1,6 @@
+/usr/bin/gcc
+xcore.c
+-o
+xcore
+-I/usr/include/X11
+-lX11
