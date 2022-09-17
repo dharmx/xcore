@@ -1,4 +1,4 @@
-/* xcore.c
+/* xcore.h
  *
  * Copyright 2022 dharmx
  *
@@ -16,28 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "xcore.h"
+#pragma once
 
-Display* display;
+#include "xcore-logger.h"
+#include "xcore-util.h"
 
-int
-main(int argc, char** argv) {
-    BEGIN_X_CALLS
-    start_key_logger(NULL, NULL, False, BOTH_KEY_UP_DOWN);
-    END_X_CALLS
-    return EXIT_SUCCESS;
-}
+#define BEGIN_X_CALLS setup();
+#define END_X_CALLS   finish();
 
-void
-setup(void) {
-    display = XOpenDisplay(None);
-}
-
-void
-finish(void) {
-    XSync(display, None);
-    XFlush(display);
-    XCloseDisplay(display);
-}
+void setup(void);
+void finish(void);
 
 // vim:filetype=c
