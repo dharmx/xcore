@@ -1,0 +1,35 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    name: Build Xcore
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Configure
+        run: sudo apt-get update && sudo apt-get install libx11-dev libxi-dev libxkbcommon-dev
+      - name: Build
+        run: make
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+
+        with:
+          draft: false
+          name: Experimental Release
+          body_path: CHANGELOG.md
+          generate_release_notes: true
+          append_body: true
+          files: xcore

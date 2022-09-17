@@ -1,4 +1,4 @@
-/* xcore.c
+/* xcore-logger.h
  *
  * Copyright 2022 dharmx
  *
@@ -16,28 +16,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "xcore.h"
+#pragma once
 
-Display* display;
+#include "xcore-util.h"
 
-int
-main(int argc, char** argv) {
-    BEGIN_X_CALLS
-    start_key_logger(NULL, NULL, False, BOTH_KEY_UP_DOWN);
-    END_X_CALLS
-    return EXIT_SUCCESS;
-}
+#include <X11/XKBlib.h>
+#include <X11/extensions/XInput2.h>
 
-void
-setup(void) {
-    display = XOpenDisplay(None);
-}
+typedef struct {
+    int major_opcode_return;
+    int first_event_return;
+    int first_error_return;
+    Bool query_result;
 
-void
-finish(void) {
-    XSync(display, None);
-    XFlush(display);
-    XCloseDisplay(display);
-}
+    int opcode_rtrn;
+    int event_rtrn;
+    int error_rtrn;
+    int major_in_out;
+    int minor_in_out;
+    int xkb_query_result;
+
+    Status xi_query_result;
+} dump_t;
+
+typedef enum {
+    ONLY_KEY_UP,
+    ONLY_KEY_DOWN,
+    BOTH_KEY_UP_DOWN,
+} RawKeyPressMode;
+
+void init_xinput(dump_t*, int[2]);
+Bool display_key(XIRawEvent*, char*, Bool);
+void start_key_logger(char*, char*, Bool, RawKeyPressMode);
 
 // vim:filetype=c
