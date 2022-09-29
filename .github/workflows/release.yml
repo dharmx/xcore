@@ -29,7 +29,8 @@ jobs:
         with:
           draft: false
           name: Experimental Release
-          body_path: CHANGELOG.md
+          body_path: ${{ github.workspace }}/CHANGELOG.md
           generate_release_notes: true
           append_body: true
-          files: xcore
+          files: ${{ github.workspace }}/xcore
+          token: ${{ secrets.AUTO_RELEASE_TOKEN }}
