@@ -248,7 +248,7 @@ void
 display_desktops(char* delimiter) {
     DesktopList* list = get_desktops();
 
-    delimiter = delimiter ? delimiter : "\n";
+    delimiter = delimiter != NULL ? delimiter : "\n";
     for (u_int index = 0; index < list->nlabels; ++index)
         if (list->labels[index] == 0x0) fprintf(stdout, "%s", delimiter);
         else fprintf(stdout, "%c", list->labels[index]);
