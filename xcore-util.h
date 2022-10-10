@@ -68,10 +68,10 @@ typedef struct {
     Window root;
     int x_offset;
     int y_offset;
-    uint width;
-    uint height;
-    uint border;
-    uint depth;
+    u_int width;
+    u_int height;
+    u_int border;
+    u_int depth;
 } WSize;
 
 typedef struct {
@@ -108,7 +108,7 @@ void display_window_protocols(Window);
 void display_window_title(Window);
 
 // setter functions
-void set_pointer_centered(WSize*);
+void set_pointer_centered(Drawable);
 int set_window_state(Window, WState, Bool);
 void set_window_focus(Window, int);
 // @see https://specifications.freedesktop.org/wm-spec/wm-spec-latest.html#idm46409506372544

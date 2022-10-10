@@ -286,7 +286,8 @@ display_window_title(Window window) {
 }
 
 void
-set_pointer_centered(WSize* wsize) {
+set_pointer_centered(Drawable window) {
+    WSize* wsize = get_window_geometry(window);
     int status = XWarpPointer(display,
                               None,
                               wsize->window,
