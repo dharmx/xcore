@@ -18,7 +18,6 @@
 
 #pragma once
 
-#include "xcore-colors.h"
 #include "xcore-types.h"
 #include <sys/types.h>
 
@@ -32,10 +31,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdnoreturn.h>
 #include <string.h>
 
-#define XCORE_VERSION      "xcore-0.0.1-alpha"
 #define NIL                (0)
 #define WM_STATE_MASK      (SubstructureRedirectMask | SubstructureNotifyMask)
 #define PASS               NULL;
