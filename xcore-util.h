@@ -19,11 +19,13 @@
 #pragma once
 
 #include "xcore-colors.h"
+#include "xcore-types.h"
 #include <sys/types.h>
 
 #include <X11/XKBlib.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/extensions/XInput2.h>
 
 #include <getopt.h>
 #include <limits.h>
@@ -33,66 +35,13 @@
 #include <stdnoreturn.h>
 #include <string.h>
 
-#define XCORE_VERSION "xcore-0.0.1-alpha"
-#define NIL           (0)
-#define WM_STATE_MASK (SubstructureRedirectMask | SubstructureNotifyMask)
-#define PASS          NULL;
+#define XCORE_VERSION      "xcore-0.0.1-alpha"
+#define NIL                (0)
+#define WM_STATE_MASK      (SubstructureRedirectMask | SubstructureNotifyMask)
+#define PASS               NULL;
 
-#define XARG_ATV(M)   (M ? stol_wrap(M) : get_active_window())
-
-typedef struct {
-    Atom _NET_WM_STATE;
-    Atom _ATOM;
-    Atom _NO_ATOM;
-    Atom _UTF8_STRING;
-    Atom _WINDOW;
-    Atom _NET_WM_PID;
-
-    Atom _NET_WM_STATE_HIDDEN;
-    Atom _NET_WM_STATE_FULLSCREEN;
-    Atom _NET_WM_STATE_STICKY;
-    Atom _NET_DESKTOP_NAMES;
-    Atom _NET_NUMBER_OF_DESKTOPS;
-    Atom _WM_CLASS;
-    Atom _WM_PROTOCOLS;
-    Atom _CARDINAL;
-    Atom _NET_ACTIVE_WINDOW;
-
-    long _NET_WM_STATE_REMOVE;
-    long _NET_WM_STATE_ADD;
-    long _NET_WM_STATE_TOGGLE;
-} AtomMap;
-
-typedef struct {
-    Window window;
-    Window root;
-    int x_offset;
-    int y_offset;
-    u_int width;
-    u_int height;
-    u_int border;
-    u_int depth;
-} WSize;
-
-typedef struct {
-    u_char* labels;
-    u_long nlabels;
-} DesktopList;
-
-typedef struct {
-    Atom* protocols;
-    int count;
-} WProtocols;
-
-typedef enum {
-    HIDDEN,
-    UNMAPPED,
-    MAPPED,
-    STICKY,
-    FULLSCREEN,
-    CLOSE,
-    KILL,
-} WState;
+#define XARG_ATV(M)        (M ? stol_wrap(M) : get_active_window())
+#define XARG_NULL(M, N, S) (S <= M ? stol_wrap(N) : get_active_window())
 
 extern Display* display;
 

@@ -20,31 +20,6 @@
 
 #include "xcore-util.h"
 
-#include <X11/XKBlib.h>
-#include <X11/extensions/XInput2.h>
-
-typedef struct {
-    int major_opcode_return;
-    int first_event_return;
-    int first_error_return;
-    Bool query_result;
-
-    int opcode_rtrn;
-    int event_rtrn;
-    int error_rtrn;
-    int major_in_out;
-    int minor_in_out;
-    int xkb_query_result;
-
-    Status xi_query_result;
-} dump_t;
-
-typedef enum {
-    ONLY_KEY_UP,
-    ONLY_KEY_DOWN,
-    BOTH_KEY_UP_DOWN,
-} RawKeyPressMode;
-
 void init_xinput(dump_t*, int[2]);
 Bool display_key(XIRawEvent*, char*, Bool);
 void start_key_logger(char*, char*, Bool, RawKeyPressMode);
