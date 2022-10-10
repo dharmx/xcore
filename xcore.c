@@ -48,27 +48,27 @@ main(int argc, char** argv) {
                     if (strlen(tokens->option) == 1) {
                         switch (tokens->option[0]) {
                             case 'a': printf("0x%lX\n", get_active_window()); break;
-                            case 'c': display_window_class(XARG_ATV(tokens->value)); break;
-                            case 't': display_window_title(XARG_ATV(tokens->value)); break;
-                            case 'g': display_window_geometry(XARG_ATV(tokens->value), False); break;
+                            case 'c': display_window_class(XARG_NULL(tokens->nargs, tokens->args->value, 1)); break;
+                            case 't': display_window_title(XARG_NULL(tokens->nargs, tokens->args->value, 1)); break;
+                            case 'g': display_window_geometry(XARG_NULL(tokens->nargs, tokens->args->value, 1), False); break;
                             case 'd': printf("%ld\n", get_total_desktops()); break;
-                            case 'p': printf("%ld\n", get_window_pid(XARG_ATV(tokens->value))); break;
-                            case 'b': printf("%ld\n", get_window_border(XARG_ATV(tokens->value))); break;
-                            case 'k': printf("%s\n", get_keyname_from_code(XARG_ATV(tokens->value))); break;
+                            case 'p': printf("%ld\n", get_window_pid(XARG_NULL(tokens->nargs, tokens->args->value, 1))); break;
+                            case 'b': printf("%ld\n", get_window_border(XARG_NULL(tokens->nargs, tokens->args->value, 1))); break;
+                            case 'k': printf("%s\n", get_keyname_from_code(XARG_NULL(tokens->nargs, tokens->args->value, 1))); break;
                             case 'h': printf("FETCH HELP PLACEHOLDER\n"); break;
-                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->value); exit(EXIT_FAILURE); break;
+                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); break;
                         }
                     } else {
                         if (!strcmp(tokens->option, "active")) printf("0x%lX\n", get_active_window());
-                        else if (!strcmp(tokens->option, "class")) display_window_class(XARG_ATV(tokens->value));
-                        else if (!strcmp(tokens->option, "title")) display_window_title(XARG_ATV(tokens->value));
-                        else if (!strcmp(tokens->option, "geometry")) display_window_geometry(XARG_ATV(tokens->value), False);
+                        else if (!strcmp(tokens->option, "class")) display_window_class(XARG_NULL(tokens->nargs, tokens->args->value, 1));
+                        else if (!strcmp(tokens->option, "title")) display_window_title(XARG_NULL(tokens->nargs, tokens->args->value, 1));
+                        else if (!strcmp(tokens->option, "geometry")) display_window_geometry(XARG_NULL(tokens->nargs, tokens->args->value, 1), False);
                         else if (!strcmp(tokens->option, "desktops")) printf("%ld\n", get_total_desktops());
-                        else if (!strcmp(tokens->option, "pid")) printf("%ld\n", get_window_pid(XARG_ATV(tokens->value)));
-                        else if (!strcmp(tokens->option, "border")) printf("%ld\n", get_window_border(XARG_ATV(tokens->value)));
-                        else if (!strcmp(tokens->option, "keyname")) printf("%s\n", get_keyname_from_code(XARG_ATV(tokens->value)));
+                        else if (!strcmp(tokens->option, "pid")) printf("%ld\n", get_window_pid(XARG_NULL(tokens->nargs, tokens->args->value, 1)));
+                        else if (!strcmp(tokens->option, "border")) printf("%ld\n", get_window_border(XARG_NULL(tokens->nargs, tokens->args->value, 1)));
+                        else if (!strcmp(tokens->option, "keyname")) printf("%s\n", get_keyname_from_code(XARG_NULL(tokens->nargs, tokens->args->value, 1)));
                         else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf("FETCH HELP PLACEHOLDER\n");
-                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->value); exit(EXIT_FAILURE); }
+                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); }
                     }
                     tokens = tokens->next_token;
                 }
@@ -78,18 +78,18 @@ main(int argc, char** argv) {
                 while (tokens != NULL) {
                     if (strlen(tokens->option) == 1) {
                         switch (tokens->option[0]) {
-                            case 'g': display_window_geometry(XARG_ATV(tokens->value), True); break;
-                            case 'd': display_desktops(tokens->value); break;
-                            case 'p': display_window_protocols(XARG_ATV(tokens->value)); break;
+                            case 'g': display_window_geometry(XARG_NULL(tokens->nargs, tokens->args->value, 1), True); break;
+                            case 'd': display_desktops(tokens->args->value); break;
+                            case 'p': display_window_protocols(XARG_NULL(tokens->nargs, tokens->args->value, 1)); break;
                             case 'h': printf("LIST HELP PLACEHOLDER\n"); break;
-                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->value); exit(EXIT_FAILURE); break;
+                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); break;
                         }
                     } else {
-                        if (!strcmp(tokens->option, "geometry")) display_window_geometry(XARG_ATV(tokens->value), True);
-                        else if (!strcmp(tokens->option, "desktops")) display_desktops(tokens->value);
-                        else if (!strcmp(tokens->option, "protocols")) display_window_protocols(XARG_ATV(tokens->value));
+                        if (!strcmp(tokens->option, "geometry")) display_window_geometry(XARG_NULL(tokens->nargs, tokens->args->value, 1), True);
+                        else if (!strcmp(tokens->option, "desktops")) display_desktops(tokens->args->value);
+                        else if (!strcmp(tokens->option, "protocols")) display_window_protocols(XARG_NULL(tokens->nargs, tokens->args->value, 1));
                         else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf("LIST HELP PLACEHOLDER\n");
-                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->value); exit(EXIT_FAILURE); }
+                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); }
                     }
                     tokens = tokens->next_token;
                 }
@@ -99,20 +99,18 @@ main(int argc, char** argv) {
                 while (tokens != NULL) {
                     if (strlen(tokens->option) == 1) {
                         switch (tokens->option[0]) {
-                            case 'r': set_window_focus(XARG_ATV(tokens->value), True); break;
-                            case 'f': set_window_focus(XARG_ATV(tokens->value), False); break;
-                            case 'c': set_pointer_centered(XARG_ATV(tokens->value)); break;
-                            case 'a': set_window_activate(XARG_ATV(tokens->value)); break;
+                            case 'f': set_window_focus(XARG_NULL(tokens->nargs, tokens->args->value, 1), False); break;
+                            case 'c': set_pointer_centered(XARG_NULL(tokens->nargs, tokens->args->value, 1)); break;
+                            case 'a': set_window_activate(XARG_NULL(tokens->nargs, tokens->args->value, 1)); break;
                             case 'h': printf("APPLY HELP PLACEHOLDER\n"); break;
-                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->value); exit(EXIT_FAILURE); break;
+                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); break;
                         }
                     } else {
-                        if (!strcmp(tokens->option, "focus-revert")) set_window_focus(XARG_ATV(tokens->value), True);
-                        else if (!strcmp(tokens->option, "focus")) set_window_focus(XARG_ATV(tokens->value), False);
-                        else if (!strcmp(tokens->option, "center")) set_pointer_centered(XARG_ATV(tokens->value));
-                        else if (!strcmp(tokens->option, "activate")) set_window_activate(XARG_ATV(tokens->value));
+                        if (!strcmp(tokens->option, "focus")) set_window_focus(XARG_NULL(tokens->nargs, tokens->args->value, 1), False);
+                        else if (!strcmp(tokens->option, "center")) set_pointer_centered(XARG_NULL(tokens->nargs, tokens->args->value, 1));
+                        else if (!strcmp(tokens->option, "activate")) set_window_activate(XARG_NULL(tokens->nargs, tokens->args->value, 1));
                         else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf("APPLY HELP PLACEHOLDER\n");
-                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->value); exit(EXIT_FAILURE); }
+                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); }
                     }
                     tokens = tokens->next_token;
                 }
@@ -124,12 +122,12 @@ main(int argc, char** argv) {
                         switch (tokens->option[0]) {
                             case 'k': start_key_logger(NULL, NULL, False, BOTH_KEY_UP_DOWN); break;
                             case 'h': printf("MONITOR HELP PLACEHOLDER\n"); break;
-                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->value); exit(EXIT_FAILURE); break;
+                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); break;
                         }
                     } else {
                         if (!strcmp(tokens->option, "log-keyboard")) start_key_logger(NULL, NULL, False, BOTH_KEY_UP_DOWN);
                         else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf("MONITOR HELP PLACEHOLDER\n");
-                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->value); exit(EXIT_FAILURE); }
+                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); }
                     }
                     tokens = tokens->next_token;
                 }
