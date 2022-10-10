@@ -18,6 +18,7 @@
 
 #pragma once
 
+#include "xcore-tokenizer.h"
 #include "xcore-logger.h"
 #include "xcore-util.h"
 
