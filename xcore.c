@@ -26,24 +26,16 @@ main(int argc, char** argv) {
 
     int option_item;
     int option_index;
-    const char* short_options = "-:G:L:S:M:Vh";
+    const char* short_options = SHORT_OPTIONS;
     enum { OPT_FETCH = 'G', OPT_LIST = 'L', OPT_APPLY = 'S', OPT_MONITOR = 'M', OPT_VERSION = 'V', OPT_HELP = 'h' };
-    struct option long_options[] = {
-        {"fetch",   required_argument, 0, OPT_FETCH  },
-        {"list",    required_argument, 0, OPT_LIST   },
-        {"apply",   required_argument, 0, OPT_APPLY  },
-        {"monitor", required_argument, 0, OPT_MONITOR},
-        {"version", no_argument,       0, OPT_VERSION},
-        {"help",    no_argument,       0, OPT_HELP   },
-        {None,      None,              0, None       },
-    };
+    const struct option long_options[] = LONG_OPTIONS;
 
     // clang-format off
     token_t* tokens = NULL;
     while ((option_item = getopt_long(argc, argv, short_options, long_options, &option_index)) != -1) {
         switch (option_item) {
             case OPT_FETCH:
-                tokens = tokenize_args(optarg, "#", "@");
+                tokens = FETCH_TOKENS
                 while (tokens != NULL) {
                     if (strlen(tokens->option) == 1) {
                         switch (tokens->option[0]) {
@@ -55,8 +47,8 @@ main(int argc, char** argv) {
                             case 'p': printf("%ld\n", get_window_pid(XARG_NULL(tokens->nargs, tokens->args->value, 1))); break;
                             case 'b': printf("%ld\n", get_window_border(XARG_NULL(tokens->nargs, tokens->args->value, 1))); break;
                             case 'k': printf("%s\n", get_keyname_from_code(XARG_NULL(tokens->nargs, tokens->args->value, 1))); break;
-                            case 'h': printf("FETCH HELP PLACEHOLDER\n"); break;
-                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); break;
+                            case 'h': printf(FETCH_HELP_MESSAGE); break;
+                            default: printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); break;
                         }
                     } else {
                         if (!strcmp(tokens->option, "active")) printf("0x%lX\n", get_active_window());
@@ -65,77 +57,78 @@ main(int argc, char** argv) {
                         else if (!strcmp(tokens->option, "geometry")) display_window_geometry(XARG_NULL(tokens->nargs, tokens->args->value, 1), False);
                         else if (!strcmp(tokens->option, "desktops")) printf("%ld\n", get_total_desktops());
                         else if (!strcmp(tokens->option, "pid")) printf("%ld\n", get_window_pid(XARG_NULL(tokens->nargs, tokens->args->value, 1)));
-                        else if (!strcmp(tokens->option, "border")) printf("%ld\n", get_window_border(XARG_NULL(tokens->nargs, tokens->args->value, 1)));
+                        else if (!strcmp(tokens->option, "border-width")) printf("%ld\n", get_window_border(XARG_NULL(tokens->nargs, tokens->args->value, 1)));
                         else if (!strcmp(tokens->option, "keyname")) printf("%s\n", get_keyname_from_code(XARG_NULL(tokens->nargs, tokens->args->value, 1)));
-                        else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf("FETCH HELP PLACEHOLDER\n");
-                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); }
+                        else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf(FETCH_HELP_MESSAGE);
+                        else { printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); }
                     }
                     tokens = tokens->next_token;
                 }
                 break;
             case OPT_LIST:
-                tokens = tokenize_args(optarg, "#", "@");
+                tokens = FETCH_TOKENS
                 while (tokens != NULL) {
                     if (strlen(tokens->option) == 1) {
                         switch (tokens->option[0]) {
                             case 'g': display_window_geometry(XARG_NULL(tokens->nargs, tokens->args->value, 1), True); break;
-                            case 'd': display_desktops(tokens->args->value); break;
+                            case 'd': display_desktops(tokens->nargs == 1 ? tokens->args->value : NULL); break;
                             case 'p': display_window_protocols(XARG_NULL(tokens->nargs, tokens->args->value, 1)); break;
-                            case 'h': printf("LIST HELP PLACEHOLDER\n"); break;
-                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); break;
+                            case 'h': printf(LIST_HELP_MESSAGE); break;
+                            default: printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); break;
                         }
                     } else {
                         if (!strcmp(tokens->option, "geometry")) display_window_geometry(XARG_NULL(tokens->nargs, tokens->args->value, 1), True);
-                        else if (!strcmp(tokens->option, "desktops")) display_desktops(tokens->args->value);
+                        else if (!strcmp(tokens->option, "desktops")) display_desktops(tokens->nargs == 1 ? tokens->args->value : NULL);
                         else if (!strcmp(tokens->option, "protocols")) display_window_protocols(XARG_NULL(tokens->nargs, tokens->args->value, 1));
-                        else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf("LIST HELP PLACEHOLDER\n");
-                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); }
+                        else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf(LIST_HELP_MESSAGE);
+                        else { printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); }
                     }
                     tokens = tokens->next_token;
                 }
                 break;
             case OPT_APPLY:
-                tokens = tokenize_args(optarg, "#", "@");
+                tokens = FETCH_TOKENS
                 while (tokens != NULL) {
                     if (strlen(tokens->option) == 1) {
                         switch (tokens->option[0]) {
-                            case 'f': set_window_focus(XARG_NULL(tokens->nargs, tokens->args->value, 1), False); break;
+                            // WARN: write get_arg(int index) utility instead of using XARG_NULL
+                            case 'f': set_window_focus(XARG_NULL(tokens->nargs, tokens->args->value, 1), XARG_NULL(tokens->nargs, tokens->args->next_arg->value, 2)); break;
                             case 'c': set_pointer_centered(XARG_NULL(tokens->nargs, tokens->args->value, 1)); break;
                             case 'a': set_window_activate(XARG_NULL(tokens->nargs, tokens->args->value, 1)); break;
-                            case 'h': printf("APPLY HELP PLACEHOLDER\n"); break;
-                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); break;
+                            case 'h': printf(APPLY_HELP_MESSAGE); break;
+                            default: printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); break;
                         }
                     } else {
                         if (!strcmp(tokens->option, "focus")) set_window_focus(XARG_NULL(tokens->nargs, tokens->args->value, 1), False);
                         else if (!strcmp(tokens->option, "center")) set_pointer_centered(XARG_NULL(tokens->nargs, tokens->args->value, 1));
                         else if (!strcmp(tokens->option, "activate")) set_window_activate(XARG_NULL(tokens->nargs, tokens->args->value, 1));
-                        else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf("APPLY HELP PLACEHOLDER\n");
-                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); }
+                        else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf(APPLY_HELP_MESSAGE);
+                        else { printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); }
                     }
                     tokens = tokens->next_token;
                 }
                 break;
             case OPT_MONITOR:
-                tokens = tokenize_args(optarg, "#", "@");
+                tokens = FETCH_TOKENS
                 while (tokens != NULL) {
                     if (strlen(tokens->option) == 1) {
                         switch (tokens->option[0]) {
                             case 'k': start_key_logger(NULL, NULL, False, BOTH_KEY_UP_DOWN); break;
-                            case 'h': printf("MONITOR HELP PLACEHOLDER\n"); break;
-                            default: printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); break;
+                            case 'h': printf(MONITOR_HELP_MESSAGE); break;
+                            default: printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); break;
                         }
                     } else {
-                        if (!strcmp(tokens->option, "log-keyboard")) start_key_logger(NULL, NULL, False, BOTH_KEY_UP_DOWN);
-                        else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf("MONITOR HELP PLACEHOLDER\n");
-                        else { printf("%s=%s: This is not a defined option!\n", tokens->option, tokens->args->value); exit(EXIT_FAILURE); }
+                        if (!strcmp(tokens->option, "keyboard")) start_key_logger(NULL, NULL, False, BOTH_KEY_UP_DOWN);
+                        else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf(MONITOR_HELP_MESSAGE);
+                        else { printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); }
                     }
                     tokens = tokens->next_token;
                 }
                 break;
-            case OPT_VERSION: printf("VERSION PLACEHOLDER\n"); break;
-            case OPT_HELP: printf("HELP PLACEHOLDER\n"); break;
-            case '?': printf("INVALID ARG PLACEHOLDER\n"); exit(EXIT_FAILURE);
-            default: printf("UNDEFINED PLACEHOLDER\n"); exit(EXIT_FAILURE);
+            case OPT_VERSION: printf(VERSION); break;
+            case OPT_HELP: printf(HELP_MESSAGE); break;
+            case '?': fprintf(stderr, "ERROR: invalid general argument\n"); printf(HELP_MESSAGE); break;
+            default: printf("ERROR: undefined action\n"); exit(EXIT_FAILURE); break;
         }
     }
     // clang-format off
