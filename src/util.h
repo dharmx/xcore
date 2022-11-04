@@ -1,4 +1,4 @@
-/* xcore-util.h
+/* util.h
  *
  * Copyright 2022 dharmx
  *
@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "xcore-types.h"
+#include "types.h"
 #include <sys/types.h>
 
 #include <X11/XKBlib.h>

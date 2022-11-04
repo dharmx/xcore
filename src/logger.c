@@ -1,4 +1,4 @@
-/* xcore-logger.c
+/* logger.c
  *
  * Copyright 2022 dharmx
  *
@@ -16,7 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "xcore-logger.h"
+#include "logger.h"
+#define ON_OR_OFF(S) (S ? "on" : "off")
 
 void
 init_xinput(dump_t* dump, int version[2]) {
@@ -102,6 +103,49 @@ start_key_logger(char* up, char* down, Bool only_icon, RawKeyPressMode mode) {
             }
             XFreeEventData(display, cookie);
         }
+    }
+}
+
+void
+display_ind_state(Bool ind_keys[2], int event_state) {
+    typedef enum {
+        NO_STATE        = 0,
+        CAPS_LOCK_STATE = 1,
+        NUM_LOCK_STATE  = 2,
+        BOTH_LOCK_STATE = 3,
+    } ind_state_t;
+
+    switch (event_state) {
+        case NO_STATE: ind_keys[0] = ind_keys[1] = False; break;
+        case CAPS_LOCK_STATE: ind_keys[0] = True; break;
+        case NUM_LOCK_STATE: ind_keys[1] = True; break;
+        case BOTH_LOCK_STATE: ind_keys[0] = ind_keys[1] = True; break;
+    }
+
+    printf("indicators %s %s\n", ON_OR_OFF(ind_keys[0]), ON_OR_OFF(ind_keys[1]));
+    fflush(stdout);
+}
+
+void
+query_led_state(Bool ind_keys[2]) {
+    unsigned int start_state;
+    XkbGetIndicatorState(display, XkbUseCoreKbd, &start_state);
+    if (ind_keys == NULL) {
+        Bool ind_keys_once[2] = {False, False};
+        display_ind_state(ind_keys_once, start_state);
+    } else display_ind_state(ind_keys, start_state);
+}
+
+void
+start_led_logger(Bool first) {
+    Bool ind_keys[2] = {False, False};
+    if (first) query_led_state(ind_keys);
+
+    XkbSelectEvents(display, XkbUseCoreKbd, XkbIndicatorStateNotifyMask, XkbIndicatorStateNotifyMask);
+    XkbIndicatorNotifyEvent event;
+    while (True) {
+        XNextEvent(display, (XEvent*) &event);
+        if (event.xkb_type == XkbIndicatorStateNotify) display_ind_state(ind_keys, event.state);
     }
 }
 

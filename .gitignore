@@ -1,2 +1,2 @@
-*.o
-xcore
+src/*.o
+src/xcore

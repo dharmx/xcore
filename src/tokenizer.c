@@ -1,4 +1,4 @@
-/* xcore-tokenizer.c
+/* tokenizer.c
  *
  * Copyright 2022 dharmx
  *
@@ -19,7 +19,7 @@
 #include <stdio.h>
 #define _XOPEN_SOURCE 500
 
-#include "xcore-tokenizer.h"
+#include "tokenizer.h"
 
 void
 append_arg(arg_t** arg_ref, char* new_value) {

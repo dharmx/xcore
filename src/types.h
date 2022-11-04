@@ -1,4 +1,4 @@
-/* xcore-types.h
+/* types.h
  *
  * Copyright 2022 dharmx
  *

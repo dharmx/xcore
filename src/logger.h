@@ -1,4 +1,4 @@
-/* xcore-logger.h
+/* logger.h
  *
  * Copyright 2022 dharmx
  *
@@ -18,10 +18,13 @@
 
 #pragma once
 
-#include "xcore-util.h"
+#include "util.h"
 
 void init_xinput(dump_t*, int[2]);
 Bool display_key(XIRawEvent*, char*, Bool);
 void start_key_logger(char*, char*, Bool, RawKeyPressMode);
+
+void query_led_state(Bool[2]);
+void start_led_logger(Bool);
 
 // vim:filetype=c

@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include "xcore-logger.h"
-#include "xcore-tokenizer.h"
-#include "xcore-util.h"
-#include "xcore-colors.h"
+#include "logger.h"
+#include "tokenizer.h"
+#include "util.h"
+#include "colors.h"
 
 #define BEGIN_X_CALLS setup();
 #define END_X_CALLS   finish();
@@ -46,7 +46,7 @@
         {None,        None,              0, None       },           \
 };
 
-#define VERSION "xcore-0.0.2-alpha"
+#define VERSION "xcore-0.0.3-alpha"
 #define AUTHOR  MAG "dharmx" RESET " | dharmx.dev@gmail.com"
 #define PADDING "     "
 
@@ -82,6 +82,7 @@
 #define MONITOR_HELP_MESSAGE                                                                  \
     CYN "MONITOR COMMANDS:" RESET                                                             \
     BLU "\n" PADDING "k, keyboard   " RESET PADDING "print global keypresses and keyreleases" \
+    BLU "\n" PADDING "l, led        " RESET PADDING "print led status"                        \
     BLU "\n" PADDING "h, help       " RESET PADDING "help related to monitor commands"        \
     "\n\n"
 
