@@ -36,6 +36,7 @@ SETTER COMMANDS:
 
 MONITOR COMMANDS:
      k, keyboard        print global keypresses and keyreleases
+     l, led             print led status
      h, help            help related to monitor commands
 
 EXAMPLES:

@@ -39,3 +39,8 @@ This is an experimental release.
 - added `apply.[window_focus|window_activate|center_pointer|window_state]`
 - added `monitor.[key_logger]`
 - added all `--help|-h|h|help`, `--version|-V` and argument error messages
+
+### Features
+
+- Added monitor option `led`.
+- Moved source files to `src` directory.

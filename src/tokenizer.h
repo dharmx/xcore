@@ -1,4 +1,4 @@
-/* xcore-tokenizer.h
+/* tokenizer.h
  *
  * Copyright 2022 dharmx
  *
@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "xcore-types.h"
+#include "types.h"
 
 #include <stdbool.h>
 #include <stdlib.h>

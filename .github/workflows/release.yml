@@ -31,5 +31,5 @@ jobs:
           body_path: CHANGELOG.md
           draft: false
           generate_release_notes: true
-          files: xcore
+          files: src/xcore
           append_body: true

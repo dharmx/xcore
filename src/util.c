@@ -1,4 +1,4 @@
-/* xcore-util.c
+/* util.c
  *
  * Copyright 2022 dharmx
  *
@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "xcore-util.h"
+#include "util.h"
 
 long
 stol_wrap(const char* string) {

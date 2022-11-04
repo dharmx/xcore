@@ -22,6 +22,11 @@ Display* display;
 
 int
 main(int argc, char** argv) {
+    if (argc < 2) {
+        fprintf(stderr, "ERROR: No arguments given.\n");
+        exit(EXIT_FAILURE);
+    }
+
     BEGIN_X_CALLS;
 
     int option_item;
@@ -114,11 +119,13 @@ main(int argc, char** argv) {
                     if (strlen(tokens->option) == 1) {
                         switch (tokens->option[0]) {
                             case 'k': start_key_logger(NULL, NULL, False, BOTH_KEY_UP_DOWN); break;
+                            case 'l': start_led_logger(XARG_NULL(tokens->nargs, tokens->args->next_arg->value, 1) ? False : True); break;
                             case 'h': printf(MONITOR_HELP_MESSAGE); break;
                             default: printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); break;
                         }
                     } else {
                         if (!strcmp(tokens->option, "keyboard")) start_key_logger(NULL, NULL, False, BOTH_KEY_UP_DOWN);
+                        else if (!strcmp(tokens->option, "led")) start_led_logger(XARG_NULL(tokens->nargs, tokens->args->next_arg->value, 1) ? False : True);
                         else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf(MONITOR_HELP_MESSAGE);
                         else { printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); }
                     }
