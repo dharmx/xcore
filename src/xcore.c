@@ -18,6 +18,12 @@
 
 #include "xcore.h"
 
+#include <getopt.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
 Display* display;
 
 int
@@ -100,6 +106,7 @@ main(int argc, char** argv) {
                             case 'f': set_window_focus(XARG_NULL(tokens->nargs, tokens->args->value, 1), XARG_NULL(tokens->nargs, tokens->args->next_arg->value, 2)); break;
                             case 'c': set_pointer_centered(XARG_NULL(tokens->nargs, tokens->args->value, 1)); break;
                             case 'a': set_window_activate(XARG_NULL(tokens->nargs, tokens->args->value, 1)); break;
+                            case 's': sleep(tokens->nargs == 1 ? stol_wrap(tokens->args->value) : 0); break;
                             case 'h': printf(APPLY_HELP_MESSAGE); break;
                             default: printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); break;
                         }
@@ -107,6 +114,7 @@ main(int argc, char** argv) {
                         if (!strcmp(tokens->option, "focus")) set_window_focus(XARG_NULL(tokens->nargs, tokens->args->value, 1), False);
                         else if (!strcmp(tokens->option, "center")) set_pointer_centered(XARG_NULL(tokens->nargs, tokens->args->value, 1));
                         else if (!strcmp(tokens->option, "activate")) set_window_activate(XARG_NULL(tokens->nargs, tokens->args->value, 1));
+                        else if (!strcmp(tokens->option, "sleep") || !strcmp(tokens->option, "delay")) sleep(tokens->nargs == 1 ? stol_wrap(tokens->args->value) : 0);
                         else if (!strcmp(tokens->option, "help") || !strcmp(tokens->option, "-h") || !strcmp(tokens->option, "--help")) printf(APPLY_HELP_MESSAGE);
                         else { printf("ERROR: undefined option '%s'\n", tokens->option); exit(EXIT_FAILURE); }
                     }
@@ -132,7 +140,7 @@ main(int argc, char** argv) {
                     tokens = tokens->next_token;
                 }
                 break;
-            case OPT_VERSION: printf(VERSION); break;
+            case OPT_VERSION: printf(VERSION "\n"); break;
             case OPT_HELP: printf(HELP_MESSAGE); break;
             case '?': fprintf(stderr, "ERROR: invalid general argument\n"); printf(HELP_MESSAGE); break;
             default: printf("ERROR: undefined action\n"); exit(EXIT_FAILURE); break;

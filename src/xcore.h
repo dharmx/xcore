@@ -18,10 +18,10 @@
 
 #pragma once
 
+#include "colors.h"
 #include "logger.h"
 #include "tokenizer.h"
 #include "util.h"
-#include "colors.h"
 
 #define BEGIN_X_CALLS setup();
 #define END_X_CALLS   finish();
@@ -75,6 +75,8 @@
     CYN "SETTER COMMANDS:" RESET                                                          \
     BLU "\n" PADDING "f, focus      " RESET PADDING "focus a window (takes a revert arg)" \
     BLU "\n" PADDING "c, center     " RESET PADDING "center a window"                     \
+    BLU "\n" PADDING "a, activate   " RESET PADDING "activate a window and give it focus" \
+    BLU "\n" PADDING "s, delay      " RESET PADDING "execute after a delay in seconds"    \
     BLU "\n" PADDING "a, activate   " RESET PADDING "activate a window and give it focus" \
     BLU "\n" PADDING "h, help       " RESET PADDING "help related to setter commands"     \
     "\n\n"

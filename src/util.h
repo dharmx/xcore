@@ -21,17 +21,7 @@
 #include "types.h"
 #include <sys/types.h>
 
-#include <X11/XKBlib.h>
-#include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <X11/extensions/XInput2.h>
-
-#include <getopt.h>
-#include <limits.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #define NIL                (0)
 #define WM_STATE_MASK      (SubstructureRedirectMask | SubstructureNotifyMask)

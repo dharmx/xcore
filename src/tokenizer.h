@@ -20,10 +20,6 @@
 
 #include "types.h"
 
-#include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
-
 void append_arg(arg_t**, char*);
 void append_token(token_t**, char*, arg_t*, u_long);
 token_t* tokenize_args(char*, char*, char*);

@@ -18,6 +18,11 @@
 
 #include "util.h"
 
+#include <X11/XKBlib.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+
 long
 stol_wrap(const char* string) {
     int base   = string[1] == 'x' || string[1] == 'X' ? 16 : 10;

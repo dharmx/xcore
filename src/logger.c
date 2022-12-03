@@ -17,6 +17,12 @@
  */
 
 #include "logger.h"
+
+#include <X11/XKBlib.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #define ON_OR_OFF(S) (S ? "on" : "off")
 
 void
