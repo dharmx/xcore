@@ -20,9 +20,12 @@
 
 #include "util.h"
 
+#include <X11/extensions/XInput2.h>
+
 void init_xinput(dump_t*, int[2]);
 Bool display_key(XIRawEvent*, char*, Bool);
 void start_key_logger(char*, char*, Bool, RawKeyPressMode);
+void start_key_flow(arg_t*, arg_t*, Bool, Bool, Bool);
 
 void query_led_state(Bool[2]);
 void start_led_logger(Bool);

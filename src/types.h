@@ -23,6 +23,13 @@
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
+typedef enum {
+    NO_STATE        = 0,
+    CAPS_LOCK_STATE = 1,
+    NUM_LOCK_STATE  = 2,
+    BOTH_LOCK_STATE = 3,
+} ind_state_t;
+
 typedef struct {
     Atom _NET_WM_STATE;
     Atom _ATOM;
