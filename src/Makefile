@@ -44,5 +44,3 @@ format:
 	clang-format -i $(SRC) $(DEF)
 
 .PHONY: clean format doc build install uninstall debug all
-
-# vim:filetype=make
