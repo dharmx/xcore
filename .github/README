@@ -1,6 +1,17 @@
-```
-xcore-0.0.2-alpha
-dharmx | dharmx.dev@gmail.com
+XCORE
+=====
+
+X11 general utility that can be used in conjunction with shell scripts.
+
+ABOUT
+=====
+
+Made this mainly for studying purposes. I wanted to apply linked list data
+structure in a project to master it better. Secondly, this is a homework project
+for when I create my own tiling window manager in X11.
+
+HELP
+====
 
 USAGE:
      xcore [OPTIONS] <COMMAND_CHAIN> ...
@@ -39,16 +50,22 @@ MONITOR COMMANDS:
      l, led             print led status
      h, help            help related to monitor commands
 
-EXAMPLES:
-     xcore -V
-     xcore -V -h
-     xcore --version --help
-     xcore --get active
-     xcore --list=protocols
-     xcore -G active@class::0x2600006
-     xcore -G a@t::0x3000A04geometry -L protocols::0x300002A -M keyboard
-     xcore -S f::0x240000A::1
-     xcore -L desktops::\* --list=desktops::+-
-     xcore --version --get active::
-     xcore -S f::0x240000A::1@title::0x2000001@c
-```
+EXAMPLES
+========
+
+xcore -V
+xcore -V -h
+xcore --version --help
+xcore --get active
+xcore --list=protocols
+xcore -G active@class::0x2600006
+xcore -G a@t::0x3000A04geometry -L protocols::0x300002A -M keyboard
+xcore -S f::0x240000A::1
+xcore -L desktops::\* --list=desktops::+-
+xcore --version --get active::
+xcore -S f::0x240000A::1@title::0x2000001@c
+
+CONTACT
+=======
+
+Email: dharmx.dev@gmail.com
